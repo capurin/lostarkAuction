@@ -1,6 +1,9 @@
 ### TEST
 GET localhost:8080
 
+### TEST
+GET localhost:8080/getNews
+
 
 ### LOST ARK API-TEST
 GET https://developer-lostark.game.onstove.com/news/notices
