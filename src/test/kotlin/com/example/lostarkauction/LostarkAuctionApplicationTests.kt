@@ -61,4 +61,14 @@ class LostarkAuctionApplicationTests {
         System.out.println(jsonInString)
     }
 
+    @Test
+    fun `string자르기`() {
+
+        val link: String = "https://lostark.game.onstove.com/News/Notice/Views/2484"
+
+        println(link.substring((link.indexOfLast { it == '/' })+1, link.length, ))
+
+
+    }
+
 }

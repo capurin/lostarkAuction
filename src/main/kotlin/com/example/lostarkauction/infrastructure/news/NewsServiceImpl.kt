@@ -1,18 +1,26 @@
 package com.example.lostarkauction.infrastructure.news
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.example.lostarkauction.infrastructure.news.entity.News
+import com.example.lostarkauction.infrastructure.news.repository.NewsRepository
+import org.modelmapper.ModelMapper
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.*
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.HttpServerErrorException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
-import kotlin.math.log
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 @Service
-class NewsServiceImpl : NewsService {
-    override fun getNewsByApi(): NewsDto? {
+class NewsServiceImpl (private val newsRepository: NewsRepository) {
+
+    fun getNewsByApi(): NewsDto? {
         var result: NewsDto? = null;
         try {
             val factory = HttpComponentsClientHttpRequestFactory();
@@ -53,6 +61,10 @@ class NewsServiceImpl : NewsService {
         }
         return result;
 
+    }
+
+    fun saveNewsByApi(newsDto: NewsDto): Flux<News> {
+        return newsRepository.saveAll(newsDto.toListEntity())
     }
 
 
